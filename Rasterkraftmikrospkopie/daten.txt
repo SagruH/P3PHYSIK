@@ -1,0 +1,23 @@
+Messen mit E
+Aufgabe 4
+delta z höhenunterschied in nm 
+228, 219, 222, 216, 225
+Abstände in x Richtung in mym
+5.5, 4.86, 5.9, 5.5, 5.08
+Periodizizät in x Richtung in mym
+10.8, 11.9, 11.1, 10.7, 11.5
+Abstände in y Richtung in mym
+4.27, 4.68, 4.63, 5.52, 5.47
+Periodizizät in y Richtung in mym
+9.82, 9.39, 9.03, 9.55, 9.54
+Unterschied Rand x Richtung in nm
+76.2, 55.2, 43.8, 58.4, 55.5
+Unterschied Rand in y Richtung in nm
+2.9, 2.92, 5.84, 8.76, 14.6
+Aufgabe 7 (CD)
+Tiefe in nm
+172, 175, 134, 161, 152
+Breite in nm
+847, 888, 839, 806, 808
+Spurabstand (Mittelpunkt zu MP) in mym
+1.76, 1.76, 1.72, 1.79, 1.79
