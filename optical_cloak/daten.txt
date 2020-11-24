@@ -1,8 +1,8 @@
 Aufgabe 2:
 Alle 3 filter, 0.1% ; 1% ; 10%
-Dicke 15mm
+Dicke 15mm (klein) ; groß 30mm
 Filter -> anzahl = 0, 0.1, 1, 10 je prozent
-anzahl/ filter, konzentration, total count 5 times
+anzahl/ filter, konzentration, counts 5 times
 0, 0.1, 1, 10, 0, 0, 0 
 1, 0, 9.97e5, 1e6, 9.98e5, 1e6, 9.99e5
 1, 0.1, 1.8e4, 1.86e4, 1.87e4, 1.85e4, 1.83e4
@@ -15,3 +15,7 @@ anzahl/ filter, konzentration, total count 5 times
 1, 0.25, 3.75e3, 3.63e3, 3.87e3, 3.67e3, 3.71e3
 0, 0, 0, 10, 0, 0, 0 
 1, 0.3, 5.54e4, 5.39e4, 5.44e4, 5.42e4, 5.43e4
+
+Aufgabe 3:
+Belichtungszeit:
+c1-3, R und 0 65601.6µs
