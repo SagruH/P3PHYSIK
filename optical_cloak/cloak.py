@@ -9,8 +9,10 @@ import uncertainties as uc
 from uncertainties.umath import sqrt
 
 def task2():
-    data = np.loadtxt("task2_data.csv", delimiter = ",", unpack = True, skiprows = 1)
-    # data[x][y] x = colums || y = rows
+    data = np.loadtxt("task2_data.csv", delimiter = ",", unpack = False, skiprows = 1)
+    nr = len(data)
+    nc = len(data[0])
+
     return;
 
 
