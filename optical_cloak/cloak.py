@@ -19,7 +19,7 @@ def task2():
     #create new arrays: z, P(mean and std), concentration
     z = np.array([ (data[i][0]*thickness) for i in nra ])
     fc = np.array([ data[i][1] for i in nra ])
-    conc = np.array([ data[i][2] for i in nra])
+    conc = np.array([ data[i][2] for i in nra ])
 
     #uc version
     #P =  np.array([ uc.ufloat( np.mean( data[i][3:] ), np.std( data[i][3:] ) ) for i in nra ]) /fc
@@ -31,22 +31,23 @@ def task2():
     P = np.array([np.mean( data[i][3:]) for i in nra ]) / fc
     Py = np.log(P[1:]/P[0]) /-z[1:]
 
-    ls, intcep, r_value, p_value, std_err = stats.linregress(conc[1:], Py)
+    lsp, intcep, r_value, p_value, std_err = stats.linregress(conc[1:], Py)
 
-    #ls = (-z[1:])/np.log(P[1:]/P[0])
+    ls = uc.ufloat(lsp, std_err)
     lt = ls/(1-g)
     D = (1/3)*v*lt
 
-
     xls = np.linspace(0.09,0.32, 100)
     plt.plot(conc[1:], Py, "bo")
-    plt.plot(xls, ls*xls+intcep, "r-")
+    plt.plot(xls, lsp*xls+intcep, "r-")
     plt.xlabel("concentration")
     plt.ylabel("log(P/P0)/-z")
     plt.grid(True)
     #plt.show()
     plt.clf()
-    return D;
+
+
+    return 1/D;
 
 def task3(D):
     data = np.loadtxt("task3_data.csv", delimiter = ",", unpack = True, skiprows = 1)
@@ -58,24 +59,28 @@ def task3(D):
     K = const.c/ (2* A)
     z = 0.015
 
-    curv = t0/( 2+( (K*z)/(D*conc) ) )
+    curv = (t0/( 2+( (K*z)/(D.nominal_value) ) ) ) * conc
 
-    plt.plot(conc,T,"bo", label = "data")
-    plt.plot(curv,T,"r-", label = "curve")
-    #plt.plot(conc,T/curv,"k-", label = "curve2")
+    plt.plot(conc, T,"bo", label = "data")
     plt.grid(True)
     plt.legend()
     plt.xlabel("concentration")
-    plt.ylabel("log(P/P0)/-z")
-
+    plt.ylabel("T")
     plt.show()
+    plt.clf()
+
+    plt.plot(conc, curv,"r-", label = "curve")
+    plt.grid(True)
+    plt.legend()
+    plt.xlabel("concentration")
+    plt.ylabel("T")
+    plt.show()
+    plt.clf()
     return;
 
 def main():
     D = task2()
-    #for i in np.arange(len(D)):
-        #print("Concentration: %.3f || z: %.3f || D: %.3f" % ( conc[i], z[i], D[i] ) )
-        #pass
+    print(D)
     task3(D)
 
     return;
