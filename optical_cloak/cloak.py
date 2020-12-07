@@ -29,17 +29,55 @@ def task2():
 
     #non uc version
     P = np.array([np.mean( data[i][3:]) for i in nra ]) / fc
-    ls = (-z[1:])/np.log(P[1:]/P[0])
+    Py = np.log(P[1:]/P[0]) /-z[1:]
+
+    ls, intcep, r_value, p_value, std_err = stats.linregress(conc[1:], Py)
+
+    #ls = (-z[1:])/np.log(P[1:]/P[0])
     lt = ls/(1-g)
     D = (1/3)*v*lt
-    return D, conc[1:], z[1:];
 
+
+    xls = np.linspace(0.09,0.32, 100)
+    plt.plot(conc[1:], Py, "bo")
+    plt.plot(xls, ls*xls+intcep, "r-")
+    plt.xlabel("concentration")
+    plt.ylabel("log(P/P0)/-z")
+    plt.grid(True)
+    #plt.show()
+    plt.clf()
+    return D;
+
+def task3(D):
+    data = np.loadtxt("task3_data.csv", delimiter = ",", unpack = True, skiprows = 1)
+    T = np.delete(data[2]/data[1], 0)
+    conc = np.delete(data[0], 0)
+
+    t0 = data[2][0]/data[1][0]
+    A = 2.95
+    K = const.c/ (2* A)
+    z = 0.015
+
+    curv = t0/( 2+( (K*z)/(D*conc) ) )
+
+    plt.plot(conc,T,"bo", label = "data")
+    plt.plot(curv,T,"r-", label = "curve")
+    #plt.plot(conc,T/curv,"k-", label = "curve2")
+    plt.grid(True)
+    plt.legend()
+    plt.xlabel("concentration")
+    plt.ylabel("log(P/P0)/-z")
+
+    plt.show()
+    return;
 
 def main():
-    D, conc, z = task2()
-    for i in np.arange(len(D)):
-        print("Concentration: %.3f || z: %.3f || D: %.3f" % ( conc[i], z[i], D[i] ) )
-        
+    D = task2()
+    #for i in np.arange(len(D)):
+        #print("Concentration: %.3f || z: %.3f || D: %.3f" % ( conc[i], z[i], D[i] ) )
+        #pass
+    task3(D)
+
     return;
 
 
