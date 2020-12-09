@@ -78,11 +78,26 @@ def task3(D):
     plt.clf()
     return;
 
-def main():
-    D = task2()
-    print(D)
-    task3(D)
+def task4():
+    data = np.loadtxt("task4_data.csv", delimiter = ",", skiprows = 1)
+    x = data[0]
+    plt.plot(x, data[1], "r." , label = "0" )
+    plt.plot(x, data[2], "y." , label = "c1" )
+    plt.plot(x, data[3], "b." , label = "c2" )
+    plt.plot(x, data[4], "g.", label = "c3" )
+    plt.plot(x, data[5], "k.", label = "R"  )
 
+    plt.grid(True)
+    plt.legend()
+    plt.xlabel("Position")
+    plt.ylabel("abs. brightness")
+    plt.show()
+    plt.clf()
+def main():
+    #D = task2()
+    #print(D)
+    #task3(D)
+    task4()
     return;
 
 
