@@ -15,7 +15,7 @@ def aufgabe1_mag():
     slp, b, r_v, p_v, std_err = stats.linregress(I, B)
     xr = np.linspace(0,10, 350)
 
-    print("m :",slp ," b: ", b)
+    print("m :",slp ," b: ", b, " r: " , r_v)
     plt.plot(I,B, "xb")
     plt.plot(xr, slp*xr+b, "-r")
 
@@ -28,7 +28,7 @@ def aufgabe1_mag():
 
 
 def main():
-    #aufgabe1_mag()
+    aufgabe1_mag()
 
     [A, c, mt] = np.loadtxt("gruppe115_daten/beta_spectrum.txt", unpack = True)
     mt = 90 #s
@@ -45,7 +45,7 @@ def main():
 
 
 
-    if 1:
+    if 0:
         print("background counts average:  ", background_counts)
         plt.plot(A,Z, "xr")
         plt.plot(A,Z, "-b")
