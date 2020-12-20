@@ -35,21 +35,21 @@ def plt_corr_data(I,Z):
     plt.show()
     return;
 
-def gausfitf(I, a1, s1, a2, s2):
-    m1 = 8.38
-    m2 = 8.688
+def gausfitf(I, a1, m1, s1, a2, m2, s2):
+    #m1 = 8.38
+    #m2 = 8.688
     e1 = ((I-m1)**2)/(2*s1**2)
     e2 = ((I-m2)**2)/(2*s2**2)
     f = a1 * np.exp(-e1) + a2 * np.exp(-e2)
     return f;
 
 def aufgabe2b(Z, I):
-    popt, pcov = optimize.curve_fit(gausfitf, I, Z, [124.4,0.07,34,0.08])
-    [a1,s1,a2,s2] = popt
+    popt, pcov = optimize.curve_fit(gausfitf, I, Z, [124.4,8.38,0.07,34,8.688,0.08])
+    [a1,m1,s1,a2,m2,s2] = popt
     print(popt)
     xg = np.linspace(8.1,8.9,250)
-    yg = gausfitf(xg,a1,s1,a2,s2)
-    yg_est = gausfitf(xg,124.4,0.07,34,0.08)
+    yg = gausfitf(xg,a1,m1,s1,a2,m2,s2)
+    yg_est = gausfitf(xg,124.4,8.38,0.07,34,8.688,0.08)
 
     plt.plot(I,Z, "xb", label = "data")
     plt.plot(xg,yg, "-r", label = "fit")
