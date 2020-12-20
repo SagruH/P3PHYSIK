@@ -8,6 +8,8 @@ from scipy import optimize
 import uncertainties as uc
 from uncertainties.umath import sqrt, log
 
+from beta_helper import *
+
 def aufgabe1_mag():
     data = np.loadtxt("daten.csv", delimiter = ",", skiprows = 1, unpack = True)
     I = data[0]
@@ -26,27 +28,10 @@ def aufgabe1_mag():
     plt.show()
     return;
 
-def plt_corr_data(I,Z):
-    plt.plot(I,Z, "xr")
-    plt.plot(I,Z, "-b")
-    plt.xlabel("Stromstärke in A")
-    plt.ylabel("Ereignisse (korrigiert)")
-    plt.grid(True)
-    plt.show()
-    return;
-
-def gausfitf(I, a1, m1, s1, a2, m2, s2):
-    #m1 = 8.38
-    #m2 = 8.688
-    e1 = ((I-m1)**2)/(2*s1**2)
-    e2 = ((I-m2)**2)/(2*s2**2)
-    f = a1 * np.exp(-e1) + a2 * np.exp(-e2)
-    return f;
 
 def aufgabe2b(Z, I):
     popt, pcov = optimize.curve_fit(gausfitf, I, Z, [124.4,8.38,0.07,34,8.688,0.08])
     [a1,m1,s1,a2,m2,s2] = popt
-    print(popt)
     xg = np.linspace(8.1,8.9,250)
     yg = gausfitf(xg,a1,m1,s1,a2,m2,s2)
     yg_est = gausfitf(xg,124.4,8.38,0.07,34,8.688,0.08)
@@ -59,7 +44,10 @@ def aufgabe2b(Z, I):
     plt.legend()
     plt.grid(True)
     plt.show()
+    print("a1,m1,s1,a2,m2,s2: ")
+    print(popt)
     return;
+
 
 def main():
     #aufgabe1_mag() #decomment to use
@@ -76,11 +64,11 @@ def main():
 
     # correcttions
     Z = (968/1000) * (c-background_counts.n) / A
-    #plt_corr_data(I,Z) #decomment to use
+    #plt_corr_data(A,Z) #decomment to use
 
     #curve fit koversion peaks
-    aufgabe2b(Z[35:],A[35:])
-
+    #aufgabe2b(Z[35:],A[35:])
+    eta(1)
     return;
 
 main()
