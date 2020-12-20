@@ -57,6 +57,24 @@ def aufgabe4():
     print("z Wert = ", Dzm, zf)
     return;
 
+def aufgabe5():
+    DZ = 56.60
+    DU = 2.216
+    DU0 = 1.09
+    Dz0 = 8.93* 10**(-9)
+    Se = DZ/DU
+    S  = Se * 10**(-9)
+
+    cn = 0.034
+
+    Fn = cn*S*DU0
+    FAdh = cn*Dz0
+
+    print("S : " , Se)
+    print("Fn : " , Fn)
+    print("FAdh : " , FAdh)
+    return;
+
 def aufgabe7(): #CD
     #Tiefe in nm
     t = np.array([172, 175, 134, 161, 152])
@@ -73,4 +91,4 @@ def aufgabe7(): #CD
     print(tm, bm, am)
     return;
 
-aufgabe7()
+aufgabe5()
