@@ -68,7 +68,17 @@ def main():
 
     #curve fit koversion peaks
     #aufgabe2b(Z[35:],A[35:])
-    eta(1)
+
+    #calc etas and fit
+    EK = 624.6e3 #eV
+    EL = 656.4e3 #eV
+    eta_K = etaf(EK)
+    eta_L = etaf(EL)
+    print(eta_K, eta_L)
+    eta_fit=[0,eta_K,eta_L]
+    I_fit =[0,m1,m2]
+    m, t, r_v, p_v, std_err = stats.linregress(I_fit, eta_fit)
+
     return;
 
 main()

@@ -20,8 +20,8 @@ def gausfitf(I, a1, m1, s1, a2, m2, s2):
     f = a1 * np.exp(-e1) + a2 * np.exp(-e2)
     return f;
 
-def eta(E):
-    csq = const.c
-    m = const.m_e
-    print(csq)
-    a = ( (1)/(2) )**2
+def etaf(E):
+    m = 511e3 #in eV/c**2
+    ms = np.float128(m * (const.c)**2)
+    eta = np.sqrt(( (E + ms)/ms)**2 - 1)
+    return eta;
