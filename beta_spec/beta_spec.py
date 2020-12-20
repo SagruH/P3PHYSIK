@@ -28,7 +28,7 @@ def aufgabe1_mag():
 
 
 def main():
-    aufgabe1_mag()
+    #aufgabe1_mag()
 
     [A, c, mt] = np.loadtxt("gruppe115_daten/beta_spectrum.txt", unpack = True)
     mt = 90 #s
@@ -38,19 +38,19 @@ def main():
     A = A[7:]
     c_back = c[:7]
     c = c[7:]
-    background_counts = np.sum(c_back)/len(c_back)
+    background_counts = uc.ufloat(np.mean(c_back), np.std(c_back))
 
     # corecttions
-    Z = (968/1000) * (c-background_counts) / A
+    Z = (968/1000) * (c-background_counts.n) / A
 
 
 
-    if 0:
+    if 1:
         print("background counts average:  ", background_counts)
         plt.plot(A,Z, "xr")
         plt.plot(A,Z, "-b")
         plt.xlabel("Stromstärke in A")
-        plt.ylabel("Gezählte Ereignisse")
+        plt.ylabel("Ereignisse (korrigiert)")
         plt.grid(True)
         plt.show()
 
