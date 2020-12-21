@@ -79,8 +79,15 @@ def main():
     eta_fit=[0,eta_K,eta_L]
     I_fit =[0,m1,m2]
     m, t, r_v, p_v, std_err = stats.linregress(I_fit, eta_fit)
-    plt_eichung_x(I_fit, eta_fit)
+    #plt_eichung_x(I_fit, eta_fit)
 
+    #aufgabe 3
+    eps = eta2eps(A*m)
+    epsK = eps[6:]
+    yfK = yKurie(Z[6:],epsK)
+
+    plt.plot(epsK,yfK, "x")
+    plt.show()
 
     return;
 

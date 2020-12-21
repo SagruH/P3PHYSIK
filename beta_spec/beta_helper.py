@@ -40,3 +40,21 @@ def plt_eichung_x(I, eta):
     plt.show()
     plt.clf()
     return;
+
+def eta2eps(eta):
+    return np.sqrt(eta**2 + 1)
+
+def eps2eta(eps):
+    return np.sqrt(eps**2 - 1)
+
+def yKurie(N,eps):
+    eta =eps2eta(eps)
+    return np.sqrt( N/(eta*eps*GFermi(eta)) );
+
+def GFermi(eta):
+    A= 25.2007
+    B= 23.6665,
+    eps = eta2eps(eta)
+    x = np.sqrt(A+ (B)/(eps-1))
+    G = x* (eta)/(eps)
+    return G;
