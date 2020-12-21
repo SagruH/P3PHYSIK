@@ -31,7 +31,7 @@ def plt_eichung_x(I, eta):
     m, t, r_v, p_v, std_err = stats.linregress(I, eta)
     x_w = np.linspace(-0.5, 9, 100)
 
-    print(m,t)
+    print(m,t, std_err)
     plt.plot(I,eta, "xr")
     plt.plot(x_w,m*x_w + t, "-b")
     plt.xlabel("Stromstärke in A")
@@ -58,3 +58,16 @@ def GFermi(eta):
     x = np.sqrt(A+ (B)/(eps-1))
     G = x* (eta)/(eps)
     return G;
+
+def plot_kurie(eps,y):
+    a, b, r_v, p_v, std_err = stats.linregress(eps, y)
+    xv = np.linspace(1,2,100)
+    print(a,b,std_err)
+
+    plt.plot(eps,y, "xr")
+    plt.plot(xv,a*xv + b, "-b")
+    plt.xlabel("Reduzierte Energie")
+    plt.ylabel("y")
+    plt.grid(True)
+    plt.show()
+    plt.clf()
