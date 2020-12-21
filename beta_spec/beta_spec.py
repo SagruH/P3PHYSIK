@@ -43,10 +43,11 @@ def aufgabe2b(Z, I):
     plt.ylabel("Ereignisse (korrigiert)")
     plt.legend()
     plt.grid(True)
-    plt.show()
-    print("a1,m1,s1,a2,m2,s2: ")
-    print(popt)
-    return;
+    #plt.show()
+    #print("a1,m1,s1,a2,m2,s2: ")
+    #print(popt)
+    plt.clf()
+    return m1,m2;
 
 
 def main():
@@ -67,17 +68,19 @@ def main():
     #plt_corr_data(A,Z) #decomment to use
 
     #curve fit koversion peaks
-    #aufgabe2b(Z[35:],A[35:])
+    m1, m2 = aufgabe2b(Z[35:],A[35:])
 
     #calc etas and fit
-    EK = 624.6e3 #eV
-    EL = 656.4e3 #eV
+    EK = 624.6e3 *(1.6e-19) #eV
+    EL = 656.4e3 *(1.6e-19) #eV
     eta_K = etaf(EK)
     eta_L = etaf(EL)
-    print(eta_K, eta_L)
+    #print(eta_K, eta_L)
     eta_fit=[0,eta_K,eta_L]
     I_fit =[0,m1,m2]
     m, t, r_v, p_v, std_err = stats.linregress(I_fit, eta_fit)
+    plt_eichung_x(I_fit, eta_fit)
+
 
     return;
 
