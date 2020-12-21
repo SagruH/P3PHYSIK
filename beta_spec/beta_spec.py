@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 from scipy import constants as const
 from scipy import optimize
+from scipy import interpolate as ip
 
 import uncertainties as uc
 from uncertainties.umath import sqrt, log
@@ -79,7 +80,7 @@ def main():
     eta_fit=[0,eta_K,eta_L]
     I_fit =[0,m1,m2]
     m, t, r_v, p_v, std_err = stats.linregress(I_fit, eta_fit)
-    plt_eichung_x(I_fit, eta_fit)
+    #plt_eichung_x(I_fit, eta_fit)
 
     #aufgabe 3
     eps = eta2eps(A*m)
@@ -87,8 +88,15 @@ def main():
     yfK = yKurie(Z[6:25],epsK)
     a, b, r_v, p_v, std_err = stats.linregress(epsK, yfK)
 
-    plot_kurie(epsK,yfK)
+    #plot_kurie(epsK,yfK)
+    a = uc.ufloat(np.abs(a),std_err)
+    E0 = 9.11e-31 * const.c**2 * ( (b/a) -1 )
+    #print("E0:  ", E0)
 
+    #aufgabe4
+    cs = ip.CubicSpline(eps,Z)
+    xs = np.linspace(1.05,2.33,1000)
+    plot_spline(cs,xs,eps,Z)
 
     return;
 

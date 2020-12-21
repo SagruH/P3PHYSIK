@@ -71,3 +71,13 @@ def plot_kurie(eps,y):
     plt.grid(True)
     plt.show()
     plt.clf()
+
+def plot_spline(cs,xs,eps,Z):
+    plt.plot(eps,Z,"xr")
+    plt.plot(xs, cs(xs), "-b")
+    plt.xlabel("Reduzierte Energie")
+    plt.ylabel("Ereignisse (korrigiert)")
+    plt.grid(True)
+    plt.show()
+    plt.clf()
+    return;
