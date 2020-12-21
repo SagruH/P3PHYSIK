@@ -5,6 +5,7 @@ from scipy import stats
 from scipy import constants as const
 from scipy import optimize
 from scipy import interpolate as ip
+from scipy.integrate import quad
 
 import uncertainties as uc
 from uncertainties.umath import sqrt, log
@@ -96,7 +97,18 @@ def main():
     #aufgabe4
     cs = ip.CubicSpline(eps,Z)
     xs = np.linspace(1.05,2.33,1000)
-    plot_spline(cs,xs,eps,Z)
+    #plot_spline(cs,xs,eps,Z)
+
+    Abe = quad(cs,1.06, 2.05)
+    AK = quad(cs,2.17,2.25)
+    AL = quad(cs,2.25,2.31)
+    print(Abe,AK,AL)
+
+    alphaL = AL[0]/(Abe[0]-AK[0]-AL[0])
+    alphaK = AK[0]/(Abe[0]-AK[0]-AL[0])
+
+    conv = alphaK/alphaL
+    print(alphaK, alphaL, conv)
 
     return;
 
