@@ -40,10 +40,10 @@ def task2():
     xls = np.linspace(0.09,0.32, 100)
     plt.plot(conc[1:], Py, "bo")
     plt.plot(xls, lsp*xls+intcep, "r-")
-    plt.xlabel("concentration")
+    plt.xlabel("concentration in mg/ml")
     plt.ylabel("log(P/P0)/-z")
     plt.grid(True)
-    #plt.show()
+    plt.show()
     plt.clf()
 
 
@@ -64,15 +64,16 @@ def task3(D):
     plt.plot(conc, T,"bo", label = "data")
     plt.grid(True)
     plt.legend()
-    plt.xlabel("concentration")
+    plt.xlabel("concentration in mg/ml")
     plt.ylabel("T")
     plt.show()
     plt.clf()
 
+    plt.plot(conc, curv,"bx", label = "curve (points)")
     plt.plot(conc, curv,"r-", label = "curve")
     plt.grid(True)
     plt.legend()
-    plt.xlabel("concentration")
+    plt.xlabel("concentration in mg/ml")
     plt.ylabel("T")
     plt.show()
     plt.clf()
@@ -89,15 +90,15 @@ def task4():
 
     plt.grid(True)
     plt.legend()
-    plt.xlabel("Position")
-    plt.ylabel("abs. brightness")
+    plt.xlabel("Position in px")
+    plt.ylabel("abs. brightness on scale from 0 to 100")
     plt.show()
     plt.clf()
 def main():
-    #D = task2()
-    #print(D)
-    #task3(D)
-    task4()
+    D = task2()
+    print(D)
+    task3(D)
+    #task4()
     return;
 
 
