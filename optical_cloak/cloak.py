@@ -80,7 +80,7 @@ def task3(D):
     return;
 
 def task4():
-    data = np.loadtxt("task4_data.csv", delimiter = ",", skiprows = 1)
+    data = np.loadtxt("task4_data.csv", skiprows = 1)
     x = data[0]
     plt.plot(x, data[1], "r." , label = "0" )
     plt.plot(x, data[2], "y." , label = "c1" )
@@ -95,9 +95,9 @@ def task4():
     plt.show()
     plt.clf()
 def main():
-    #D = task2()
-    #print(D)
-    #task3(D)
+    D = task2()
+    print(D)
+    task3(D)
     task4()
     return;
 
