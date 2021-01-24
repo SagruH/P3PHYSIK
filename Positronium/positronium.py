@@ -6,6 +6,9 @@ from scipy import constants as const
 from scipy.optimize import curve_fit
 from scipy import interpolate as ip
 
+import uncertainties as uc
+
+
 def aufgabe1():
     data_oR = np.loadtxt("data/A1_ohne_Rauschen.RPT", unpack = True)
     data_mR = np.loadtxt("data/A1_mit_Rauschen.RPT", unpack = True)
@@ -156,14 +159,65 @@ def aufgabe3(delt,m):
     plt.ylabel("Ereignisse")
     plt.legend()
     plt.grid(True)
-    plt.show()
+    #plt.show()
     plt.clf()
+    return;
+
+def aufgabe4(delt,m):
+    x0,y0 = np.loadtxt("data/0cm.RPT", unpack = True)
+    x10,y10 = np.loadtxt("data/10cm.RPT", unpack = True)
+    x20,y20 = np.loadtxt("data/20cm.RPT", unpack = True)
+    x30,y30 = np.loadtxt("data/30cm.RPT", unpack = True)
+    x40,y40 = np.loadtxt("data/40cm.RPT", unpack = True)
+
+    data = [x0,y0,x10,y10,x20,y20,x30,y30,x40,y40]
+    labell = ["Data 0cm","Data 10cm","Data 20cm","Data 30cm","Data 40cm"]
+
+    for i in range(0,len(data),1):
+        data[i] = data[i][:150]
+
+    for (i,j) in zip(range(0,len(data),2),labell):
+        plt.plot(data[i],data[i+1],".", label=j)
+
+    plt.xlabel("Channel")
+    plt.ylabel("Ereignisse")
+    plt.legend()
+    plt.grid(True)
+    #plt.show()
+    plt.clf()
+
+
+    #find peaks
+    peakpos = []
+    tpeak = []
+    abs = [0,0.1,0.2,0.3,0.4]
+    for i in range(0,len(data),2):
+        peak = np.argmax([data[i+1]])
+        peakpos += [data[i+1][peak]]
+        tpeak += [data[i][peak] * m]
+
+    mf, c, r_v, p_v, std_err = stats.linregress(tpeak,abs)
+    xw = np.linspace(2.5,5,300)
+
+    c0 = uc.ufloat(mf,std_err) * 1e9
+    print(c0)
+
+    plt.plot(tpeak,abs,"b.", label="peaks für jeden abstand")
+    plt.plot(xw,mf*xw+c,"r-", label="fit")
+    plt.xlabel("t in ns")
+    plt.ylabel("Abstand in m")
+    plt.legend()
+    plt.grid(True)
+    #plt.show()
+    plt.clf()
+
     return;
 
 def main():
     #aufgabe1()
     delt,m = aufgabe2()
-    aufgabe3(delt,m)
+    #aufgabe3(delt,m)
+    aufgabe4(delt,m)
     return;
 
 main()
