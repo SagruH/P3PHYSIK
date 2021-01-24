@@ -107,16 +107,27 @@ def aufgabe2():     #zeitliche Auflösung
     plt.grid(True)
     #plt.show()
     plt.clf()
-    return delt;
+    return delt,m;
 
-def aufgabe3(delt):
+def aufgabe3(delt,m):
     data = np.loadtxt("data/A3_Lebensdauer.RPT", unpack = True)
+    t = data[0]*m
+
+    plt.plot(t, data[1], "b.",label="Data")
+    #plt.errorbar(t,data[1],xerr=delt)
+    #plt.yscale("log")
+    plt.xlabel("t is ns")
+    plt.ylabel("Ereignisse")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+    plt.clf()
     return;
 
 def main():
     #aufgabe1()
-    delt = aufgabe2()
-    aufgabe3(delt)
+    delt,m = aufgabe2()
+    aufgabe3(delt,m)
     return;
 
 main()
