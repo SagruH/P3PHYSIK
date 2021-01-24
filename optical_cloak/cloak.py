@@ -95,10 +95,10 @@ def task4():
     plt.show()
     plt.clf()
 def main():
-    D = task2()
-    print(D)
-    task3(D)
-    #task4()
+    #D = task2()
+    #print(D)
+    #task3(D)
+    task4()
     return;
 
 
