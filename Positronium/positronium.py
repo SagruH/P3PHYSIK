@@ -80,10 +80,15 @@ def aufgabe2():     #zeitliche Auflösung
         Aer += [perr[i+1]]
         siger += [perr[i+2]]
 
-    print(len(x0),len(dt))
+
     m, c, r_v, p_v, std_err = stats.linregress(x0,dt)
     xt = np.linspace(0,500,250)
-    print("linfit m:  ", m, " +- ", std_err," *x + ", c)
+    #print("linfit m:  ", m, " +- ", std_err," *x + ", c)
+
+    fwhm = 2.355 * np.array([sig])
+    delt = np.mean(fwhm*m)
+    delter = np.std(fwhm*m)
+    #print(delt,delter)
 
     plt.plot(x, y, "b.",label="Data")
     plt.plot(x, fit, 'r-',label="Gaussfit")
@@ -100,13 +105,18 @@ def aufgabe2():     #zeitliche Auflösung
     plt.ylabel("t in ns")
     plt.legend()
     plt.grid(True)
-    plt.show()
+    #plt.show()
     plt.clf()
+    return delt;
+
+def aufgabe3(delt):
+    data = np.loadtxt("data/A3_Lebensdauer.RPT", unpack = True)
     return;
 
 def main():
     #aufgabe1()
-    aufgabe2()
+    delt = aufgabe2()
+    aufgabe3(delt)
     return;
 
 main()
