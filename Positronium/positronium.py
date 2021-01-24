@@ -64,19 +64,44 @@ def aufgabe2():     #zeitliche Auflösung
     perr = np.sqrt(np.diag(pcov))
 
     dt = np.arange(2,42,4)
+    x0 = []
+    A = []
+    sig = []
+    x0er = []
+    Aer = []
+    siger = []
 
     for i in range(0, len(popt), 3):
-        print("t %2i : x0: %3.5f +- %2.3f , A: %5.5f +- %5.3f , sig: %3.5f +- %2.3f" % (dt[int(i/3)],popt[i],perr[i],popt[i+1],perr[i+1],popt[i+2],perr[i+2]))
+        #print("t %2i : x0: %3.5f +- %2.3f , A: %5.5f +- %5.3f , sig: %3.5f +- %2.3f" % (dt[int(i/3)],popt[i],perr[i],popt[i+1],perr[i+1],popt[i+2],perr[i+2]))
+        x0 += [popt[i]]
+        A += [popt[i+1]]
+        sig += [popt[i+2]]
+        x0er += [perr[i]]
+        Aer += [perr[i+1]]
+        siger += [perr[i+2]]
 
+    print(len(x0),len(dt))
+    m, c, r_v, p_v, std_err = stats.linregress(x0,dt)
+    xt = np.linspace(0,500,250)
+    print("linfit m:  ", m, " +- ", std_err," *x + ", c)
 
     plt.plot(x, y, "b.",label="Data")
     plt.plot(x, fit, 'r-',label="Gaussfit")
     plt.xlabel("Channel")
-    plt.ylabel("Ereignisse")
+    plt.ylabel("t in ns")
     plt.legend()
     plt.grid(True)
     #plt.show()
+    plt.clf()
 
+    plt.plot(x0, dt, "b.")
+    plt.plot(xt, m*xt+c, "r-",label="linear fit")
+    plt.xlabel("Channel")
+    plt.ylabel("t in ns")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+    plt.clf()
     return;
 
 def main():
