@@ -26,7 +26,7 @@ def func(x, *params):
         x0 = params[i]
         amp = params[i+1]
         sig = params[i+2]
-        y = y + amp/np.sqrt(2*np.pi*sig**2) * np.exp( (-2)*((x - x0)/sig)**2)
+        y = y + amp/(sig*np.sqrt(np.pi/2)) * np.exp( (-2)*((x - x0)/sig)**2)
     return y;
 
 def aufgabe2():     #zeitliche Auflösung
@@ -47,23 +47,35 @@ def aufgabe2():     #zeitliche Auflösung
     for i in range(10):
         guess += [40+50*i, 220, 25]
 
-    gbounds = guess
-    j = 0
-    for i in range(0, len(guess), 3):
-        gbounds[i] = [(40+50*j)-20, (40+50*j)+20]
+    """
+    gbounds = guess[:]
+    jkl = 0
+    for i in range(0, len(gbounds), 3):
+        gbounds[i] = [(40+50*jkl)-20, (40+50*jkl)+20]
         gbounds[i+1] = [180, 250]
         gbounds[i+2] = [0, 100]
-        j +=1
+        jkl +=1
     gbounds = np.transpose(gbounds)
+    """
 
-    popt, pcov = curve_fit(func, x, y, p0=guess, maxfev=20000)
-    print(popt)
+    popt, pcov = curve_fit(func, x, y, p0=guess, maxfev=50000)
+
     fit = func(x, *popt)
+    perr = np.sqrt(np.diag(pcov))
 
-    plt.plot(x, y, "b.")
-    plt.plot(x, fit, 'r-')
+    dt = np.arange(2,42,4)
+
+    for i in range(0, len(popt), 3):
+        print("t %2i : x0: %3.5f +- %2.3f , A: %5.5f +- %5.3f , sig: %3.5f +- %2.3f" % (dt[int(i/3)],popt[i],perr[i],popt[i+1],perr[i+1],popt[i+2],perr[i+2]))
+
+
+    plt.plot(x, y, "b.",label="Data")
+    plt.plot(x, fit, 'r-',label="Gaussfit")
+    plt.xlabel("Channel")
+    plt.ylabel("Ereignisse")
+    plt.legend()
     plt.grid(True)
-    plt.show()
+    #plt.show()
 
     return;
 
