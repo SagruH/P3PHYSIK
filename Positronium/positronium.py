@@ -109,13 +109,49 @@ def aufgabe2():     #zeitliche Auflösung
     plt.clf()
     return delt,m;
 
+def funca3(x, A1,t1,A2,t2,y0):
+    y1 = A1*np.exp(-(x/t1))
+    y2 = A2*np.exp(-(x/t2))
+    y = y0 + y1 + y2
+    return y;
+
 def aufgabe3(delt,m):
     data = np.loadtxt("data/A3_Lebensdauer.RPT", unpack = True)
     t = data[0]*m
+    y = data[1]
+    xp = np.linspace(0,42,1000)
 
+    #data plots
     plt.plot(t, data[1], "b.",label="Data")
     #plt.errorbar(t,data[1],xerr=delt)
-    #plt.yscale("log")
+    plt.yscale("log")
+    plt.xlabel("t is ns")
+    plt.ylabel("Ereignisse")
+    plt.legend()
+    plt.grid(True)
+    #plt.show()
+    plt.clf()
+
+    #-------------------------------------------------------
+    #data shift
+    iymax = np.argmax(y)
+    t = t[iymax:]
+    y = y[iymax:]
+    t = t-t[0]
+
+    #fit
+    guess = [4000,0.6,500,4,0.2]
+    popt, pcov = curve_fit(funca3, t, y, p0=guess)
+    perr = np.sqrt(np.diag(pcov))
+
+    #Verhältniss
+    v = (popt[0]*popt[1])/(popt[2]*popt[3])
+    print(v)
+
+    plt.plot(t, y, "b.",label="Data")
+    plt.plot(xp, funca3(xp, *popt), "r-",label="fit")
+    #plt.errorbar(t,data[1],xerr=delt)
+    plt.yscale("log")
     plt.xlabel("t is ns")
     plt.ylabel("Ereignisse")
     plt.legend()
