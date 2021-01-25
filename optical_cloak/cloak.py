@@ -41,7 +41,7 @@ def task2():
     plt.plot(conc[1:], Py, "bo")
     plt.plot(xls, lsp*xls+intcep, "r-")
     plt.xlabel("concentration in mg/ml")
-    plt.ylabel("log(P/P0)/-z")
+    plt.ylabel("log(P/P0)/-z in 1/mm")
     plt.grid(True)
     plt.show()
     plt.clf()
@@ -65,7 +65,7 @@ def task3(D):
     plt.grid(True)
     plt.legend()
     plt.xlabel("concentration in mg/ml")
-    plt.ylabel("T")
+    plt.ylabel("Transmission []")
     plt.show()
     plt.clf()
 
@@ -74,7 +74,7 @@ def task3(D):
     plt.grid(True)
     plt.legend()
     plt.xlabel("concentration in mg/ml")
-    plt.ylabel("T")
+    plt.ylabel("Transmission []")
     plt.show()
     plt.clf()
     return;
