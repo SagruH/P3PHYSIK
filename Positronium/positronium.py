@@ -179,8 +179,8 @@ def aufgabe4(delt,m):
     x20,y20 = np.loadtxt("data/20cm.RPT", unpack = True)
     x30,y30 = np.loadtxt("data/30cm.RPT", unpack = True)
     x40,y40 = np.loadtxt("data/40cm.RPT", unpack = True)
-    x50,y50 = np.loadtxt("data/30cm.RPT", unpack = True)
-    x60,y60 = np.loadtxt("data/40cm.RPT", unpack = True)
+    x50,y50 = np.loadtxt("data/50cm.RPT", unpack = True)
+    x60,y60 = np.loadtxt("data/60cm.RPT", unpack = True)
 
     data = [x0,y0,x10,y10,x20,y20,x30,y30,x40,y40,x50,y50,x60,y60]
     labell = ["Data 0cm","Data 10cm","Data 20cm","Data 30cm","Data 40cm","Data 50cm","Data 60cm"]
@@ -195,14 +195,14 @@ def aufgabe4(delt,m):
     plt.ylabel("Ereignisse")
     plt.legend()
     plt.grid(True)
-    plt.show()
+    #plt.show()
     plt.clf()
 
 
     #find peaks
     peakpos = []
     tpeak = []
-    abs = [0,0.1,0.2,0.3,0.4]
+    abs = [0,0.1,0.2,0.3,0.4,0.5,0.6]
     for i in range(0,len(data),2):
         peak = np.argmax([data[i+1]])
         peakpos += [data[i+1][peak]]
@@ -210,10 +210,10 @@ def aufgabe4(delt,m):
 
     mf, c, r_v, p_v, std_err = stats.linregress(tpeak,abs)
 
-    xw = np.linspace(2.5,5,300)
+    xw = np.linspace(2.5,5.3,300)
 
     c0 = uc.ufloat(mf,std_err) * 1e9
-    print(c0)
+    #print(c0)
 
     plt.plot(tpeak,abs,"b.", label="peaks für jeden abstand")
     plt.plot(xw,mf*xw+c,"r-", label="fit")
@@ -221,7 +221,7 @@ def aufgabe4(delt,m):
     plt.ylabel("Abstand in m")
     plt.legend()
     plt.grid(True)
-    #plt.show()
+    plt.show()
     plt.clf()
 
     return;
