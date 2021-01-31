@@ -85,8 +85,11 @@ def aufgabe2():     #zeitliche Auflösung
 
 
     m, c, r_v, p_v, std_err = stats.linregress(x0,dt)
+    popt2, pcov2 = curve_fit(linf, x0, dt, p0=[m,c])
+    perr2 = np.sqrt(np.diag(pcov2))
+    #print("fit  ",popt2,perr2)
+
     xt = np.linspace(0,500,250)
-    #print("linfit m:  ", m, " +- ", std_err," *x + ", c)
 
     fwhm = 2.355 * np.array([sig])
     delt = np.mean(fwhm*m)
@@ -118,6 +121,9 @@ def funca3(x, A1,t1,A2,t2,y0):
     y = y0 + y1 + y2
     return y;
 
+def linf(x,m,b):
+    return m*x+b;
+
 def aufgabe3(delt,m):
     data = np.loadtxt("data/A3_Lebensdauer.RPT", unpack = True)
     t = data[0]*m
@@ -147,8 +153,12 @@ def aufgabe3(delt,m):
     popt, pcov = curve_fit(funca3, t, y, p0=guess)
     perr = np.sqrt(np.diag(pcov))
 
+    opt = []
+    for i in range(len(popt)):
+        opt += [uc.ufloat(popt[i],perr[i])]
+
     #Verhältniss
-    v = (popt[0]*popt[1])/(popt[2]*popt[3])
+    v = (opt[0]*opt[1])/(opt[2]*opt[3])
     print(v)
 
     plt.plot(t, y, "b.",label="Data")
@@ -197,6 +207,7 @@ def aufgabe4(delt,m):
         tpeak += [data[i][peak] * m]
 
     mf, c, r_v, p_v, std_err = stats.linregress(tpeak,abs)
+
     xw = np.linspace(2.5,5,300)
 
     c0 = uc.ufloat(mf,std_err) * 1e9
@@ -216,8 +227,8 @@ def aufgabe4(delt,m):
 def main():
     #aufgabe1()
     delt,m = aufgabe2()
-    #aufgabe3(delt,m)
-    aufgabe4(delt,m)
+    aufgabe3(delt,m)
+    #aufgabe4(delt,m)
     return;
 
 main()
