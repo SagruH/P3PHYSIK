@@ -179,21 +179,23 @@ def aufgabe4(delt,m):
     x20,y20 = np.loadtxt("data/20cm.RPT", unpack = True)
     x30,y30 = np.loadtxt("data/30cm.RPT", unpack = True)
     x40,y40 = np.loadtxt("data/40cm.RPT", unpack = True)
+    x50,y50 = np.loadtxt("data/30cm.RPT", unpack = True)
+    x60,y60 = np.loadtxt("data/40cm.RPT", unpack = True)
 
-    data = [x0,y0,x10,y10,x20,y20,x30,y30,x40,y40]
-    labell = ["Data 0cm","Data 10cm","Data 20cm","Data 30cm","Data 40cm"]
+    data = [x0,y0,x10,y10,x20,y20,x30,y30,x40,y40,x50,y50,x60,y60]
+    labell = ["Data 0cm","Data 10cm","Data 20cm","Data 30cm","Data 40cm","Data 50cm","Data 60cm"]
 
     for i in range(0,len(data),1):
         data[i] = data[i][:150]
 
     for (i,j) in zip(range(0,len(data),2),labell):
-        plt.plot(data[i],data[i+1],".", label=j)
+        plt.plot(data[i],data[i+1],".-", lw=0.5, label=j)
 
     plt.xlabel("Channel")
     plt.ylabel("Ereignisse")
     plt.legend()
     plt.grid(True)
-    #plt.show()
+    plt.show()
     plt.clf()
 
 
@@ -227,8 +229,8 @@ def aufgabe4(delt,m):
 def main():
     #aufgabe1()
     delt,m = aufgabe2()
-    aufgabe3(delt,m)
-    #aufgabe4(delt,m)
+    #aufgabe3(delt,m)
+    aufgabe4(delt,m)
     return;
 
 main()
