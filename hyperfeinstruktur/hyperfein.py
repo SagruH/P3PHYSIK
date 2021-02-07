@@ -63,10 +63,10 @@ def laser():
 
     m,b = uc_lin_reg([1,2,3],0,dm,derr)
     d = (4*lam*f**2)/(m*1e-6) #convert mm**2 to m**2
-    print("m = ", m , "b = ", b)
-    print("d = ", d*1e3, "mm")
 
-
+    #Data Print ---------------------------
+    #print("m = ", m , "b = ", b)
+    #print("d = ", d*1e3, "mm")
 
     #plt.plot(data1[0], data1[1], "b.-",label="Data1")
     #plt.plot(data2[0], data2[1], "r.-",label="Data2")
@@ -87,20 +87,52 @@ def laser():
 def green(d):
     data1 = np.loadtxt("115/data_green1.txt",unpack=True)
     data2 = np.loadtxt("115/data_green2.txt",unpack=True)
-    #data3 = np.loadtxt("115/data_green3.txt",unpack=True)
-    #data4 = np.loadtxt("115/data_green4.txt",unpack=True)
+    data3 = np.loadtxt("115/data_green3.txt",unpack=True)
+    data4 = np.loadtxt("115/data_green4.txt",unpack=True)
 
-    plt.plot(data1[0], data1[1], "b.-",label="Data1")
-    plt.plot(data2[0], data2[1], "r.-",label="Data2")
+    f   = uc.ufloat(150,1)*1e-3
+
+    d1a = np.array([1055-580,1231-393,1340-266]) /155
+    d1i = np.array([996-652,1194-428,1312-295]) /155
+    d2a = np.array([1077-586,1265-405,1384-292]) /155
+    d2i = np.array([1000-665,1223-442,1353-312]) /155
+    d4a = np.array([1060-675,1261-479,1394-361]) /155
+    d4i = np.array([950-763,1230-514,1368-383]) /155
+
+    dma = np.mean([d1a,d2a,d4a],axis = 0)**2
+    dmi = np.mean([d1i,d2i,d4i],axis = 0)**2
+    derra = np.std([d1a,d2a,d4a],axis = 0)**2
+    derri = np.std([d1i,d2i,d4i],axis = 0)**2
+
+    ma,ba = uc_lin_reg([1,2,3],0,dma,derra)
+    mi,bi = uc_lin_reg([1,2,3],0,dmi,derri)
+
+    lama = (1e-6*ma*d)/(4*f**2)
+    lami = (1e-6*mi*d)/(4*f**2)
+
+    #Data Print ---------------------------
+    print("Außen in mm²: m = ", ma , "b = ", ba)
+    print("Innen in mm²: m = ", mi , "b = ", bi)
+    print("lambda innen = ", lama*1e9, "nm")
+    print("lambda außen = ", lami*1e9, "nm")
+
+    #plt.plot(data1[0], data1[1], "b.-",label="Data1")
+    #plt.plot(data2[0], data2[1], "r.-",label="Data2")
     #plt.plot(data3[0], data3[1], "g.-",label="Data3")
     #plt.plot(data4[0], data4[1], "y.-",label="Data4")
-    plt.xlabel("D in mm")
-    plt.ylabel("Intensität")
+
+    xw = np.linspace(0.5,3.5,1000)
+    plt.plot([1,2,3],dma,"bo", label = "Data Außen")
+    plt.plot([1,2,3],dmi,"co", label = "Data Innen")
+    plt.plot(xw,ma.n*xw+ba.n,"r-", label = ("Fit Außen: ("+ str(ma) + ") * x + (" + str(ba) + ")") )
+    plt.plot(xw,mi.n*xw+bi.n,"m-", label = ("Fit Innen: ("+ str(mi) + ") * x + (" + str(bi) + ")") )
+
+    plt.xlabel("Ordnung n")
+    plt.ylabel("Durchmesser D² in mm²")
     plt.legend()
     plt.grid(True)
-    plt.show()
+    #plt.show()
     plt.clf()
-
     return;
 
 
@@ -120,8 +152,8 @@ def uv(d):
     #plt.plot(data4[0], data4[1], "y.-",label="Data4")
     #plt.plot(data5[0], data5[1], "k.-",label="Data5")
 
-    plt.xlabel("D in mm")
-    plt.ylabel("Intensität")
+    plt.xlabel("Ordnung n")
+    plt.ylabel("Durchmesser D² in mm²")
     plt.legend()
     plt.grid(True)
     #plt.show()
@@ -131,8 +163,8 @@ def uv(d):
 
 def main():
     d = laser()
-    #green()
-    #uv()
+    green(d)
+    #uv(d)
     return;
 
 main()
