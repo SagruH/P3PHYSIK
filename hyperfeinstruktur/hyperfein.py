@@ -45,7 +45,46 @@ def uc_lin_reg(x,xerr,y,yerr):
     b = ym - m*xm
     return m,b;
 
-def green():
+def laser():
+    data1 = np.loadtxt("115/laser_green1.txt",unpack=True)
+    data2 = np.loadtxt("115/laser_green2.txt",unpack=True)
+    data3 = np.loadtxt("115/laser_green3.txt",unpack=True)
+
+    lam = uc.ufloat(650,1)*1e-9
+    f = uc.ufloat(150,1)*1e-3
+    d1 = np.array([840-475,1090-235,1236-79]) /155
+    d2 = np.array([937-497,1141-321,1310-184]) /155
+    d3 = 1/np.sqrt(2) * np.array([1156-568,1481-253,1600-155]) / 155
+    dm = np.mean([d1,d2,d3],axis = 0)
+    derr = np.std([d1,d2,d3],axis = 0)
+
+    dm = dm**2
+    derr = derr**2
+
+    m,b = uc_lin_reg([1,2,3],0,dm,derr)
+    d = (4*lam*f**2)/(m*1e-6) #convert mm**2 to m**2
+    print("m = ", m , "b = ", b)
+    print("d = ", d*1e3, "mm")
+
+
+
+    #plt.plot(data1[0], data1[1], "b.-",label="Data1")
+    #plt.plot(data2[0], data2[1], "r.-",label="Data2")
+    #plt.plot(data3[0], data3[1], "g.-",label="Data3")
+
+    xw = np.linspace(0.5,3.5,1000)
+    plt.plot([1,2,3],dm,"b.", label = "Data")
+    plt.plot(xw,m.n*xw+b.n,"r-", label = ("Fit: ("+ str(m) + ") * x + (" + str(b) + ")") )
+
+    plt.xlabel("Ordnung n")
+    plt.ylabel("Durchmesser D² in mm²")
+    plt.legend()
+    plt.grid(True)
+    #plt.show()
+    plt.clf()
+    return d;
+
+def green(d):
     data1 = np.loadtxt("115/data_green1.txt",unpack=True)
     data2 = np.loadtxt("115/data_green2.txt",unpack=True)
     #data3 = np.loadtxt("115/data_green3.txt",unpack=True)
@@ -64,42 +103,9 @@ def green():
 
     return;
 
-def laser():
-    data1 = np.loadtxt("115/laser_green1.txt",unpack=True)
-    data2 = np.loadtxt("115/laser_green2.txt",unpack=True)
-    data3 = np.loadtxt("115/laser_green3.txt",unpack=True)
 
-    lam = 650e-9
-    f = 150e-3
-    d1 = np.array([840-475,1090-235,1236-79]) /155
-    d2 = np.array([937-497,1141-321,1310-184]) /155
-    d3 = 1/np.sqrt(2) * np.array([1156-568,1481-253,1600-155]) / 155
-    dm = np.mean([d1,d2,d3],axis = 0)
-    derr = np.std([d1,d2,d3],axis = 0)
 
-    print(d1,d2,d3)
-
-    m,b = uc_lin_reg([1,2,3],0,dm,derr)
-    print("m = ", m , "b = ", b)
-
-    xw = np.linspace(0.5,3.5,1000)
-
-    plt.plot([1,2,3],dm,"b.", label = "Data")
-    plt.plot(xw,m.n*xw+b.n,"r-", label = ("Fit: ("+ str(m) + ") * x + (" + str(b) + ")") )
-
-    #plt.plot(data1[0], data1[1], "b.-",label="Data1")
-    #plt.plot(data2[0], data2[1], "r.-",label="Data2")
-    #plt.plot(data3[0], data3[1], "g.-",label="Data3")
-
-    plt.xlabel("Ordnung n")
-    plt.ylabel("Durchmesser in mm")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-    plt.clf()
-    return;
-
-def uv():
+def uv(d):
     data0 = np.loadtxt("115/date_uv0.txt",unpack=True)
     data1 = np.loadtxt("115/date_uv1.txt",unpack=True)
     data2 = np.loadtxt("115/date_uv2.txt",unpack=True)
@@ -118,14 +124,14 @@ def uv():
     plt.ylabel("Intensität")
     plt.legend()
     plt.grid(True)
-    plt.show()
+    #plt.show()
     plt.clf()
     return;
 
 
 def main():
+    d = laser()
     #green()
-    laser()
     #uv()
     return;
 
