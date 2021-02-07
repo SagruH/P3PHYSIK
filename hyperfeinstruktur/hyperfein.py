@@ -145,26 +145,71 @@ def uv(d):
     data4 = np.loadtxt("115/date_uv4.txt",unpack=True)
     data5 = np.loadtxt("115/date_uv5.txt",unpack=True)
 
-    plt.plot(data0[0], data0[1], "m.-",label="Data0")
-    plt.plot(data1[0], data1[1], "b.-",label="Data1")
-    plt.plot(data2[0], data2[1], "r.-",label="Data2")
-    #plt.plot(data3[0], data3[1], "g.-",label="Data3")
-    #plt.plot(data4[0], data4[1], "y.-",label="Data4")
-    #plt.plot(data5[0], data5[1], "k.-",label="Data5")
+    f   = uc.ufloat(150,1)*1e-3
+
+    d1a = np.array([1048-342,1110-244]) /155
+    d1c = np.array([1000-400,1091-281]) /155
+    d1i = np.array([967-432,1087-308])  /155
+
+    d4a = np.array([]) /155
+    d4c = np.array([]) /155
+    d4i = np.array([]) /155
+
+    d5a = np.array([1095-349,1222-251]) /155
+    d5c = np.array([1044-394,1177-289]) /155
+    d5i = np.array([995-426,1138-314])  /155
+
+    dma = np.mean([d1a,d5a],axis = 0) **2
+    dmc = np.mean([d1c,d5c],axis = 0) **2
+    dmi = np.mean([d1i,d5i],axis = 0) **2
+    derra = np.std([d1a,d5a],axis = 0) **2
+    derrc = np.std([d1c,d5c],axis = 0) **2
+    derri = np.std([d1i,d5i],axis = 0) **2
+
+    ma,ba = uc_lin_reg([1,2],0,dma,derra)
+    mc,bc = uc_lin_reg([1,2],0,dmc,derrc)
+    mi,bi = uc_lin_reg([1,2],0,dmi,derri)
+
+    lama = (1e-6*ma*d)/(4*f**2)
+    lamc = (1e-6*mc*d)/(4*f**2)
+    lami = (1e-6*mi*d)/(4*f**2)
+
+    #Data Print ---------------------------
+    print("Außen in mm²: m = ", ma , "b = ", ba)
+    print("mitte in mm²: m = ", mc , "b = ", bc)
+    print("Innen in mm²: m = ", mi , "b = ", bi)
+    print("lambda außen = ", lama*1e9, "nm")
+    print("lambda mitte = ", lamc*1e9, "nm")
+    print("lambda innen = ", lami*1e9, "nm")
+
+    #plt.plot(data0[0], data0[1], "m.-",label="Data0")   #nope
+    #plt.plot(data1[0], data1[1], "b.-",label="Data1")   #good
+    #plt.plot(data2[0], data2[1], "r.-",label="Data2")   #maybe (nope)
+    #plt.plot(data3[0], data3[1], "g.-",label="Data3")   #nope
+    #plt.plot(data4[0], data4[1], "y.-",label="Data4")   #good
+    #plt.plot(data5[0], data5[1], "k.-",label="Data5")   #good
+
+    xw = np.linspace(0.5,3.5,1000)
+    plt.plot([1,2],dma,"bo", label = "Data Außen")
+    plt.plot([1,2],dmc,"ko", label = "Data Mitte")
+    plt.plot([1,2],dmi,"co", label = "Data Innen")
+    plt.plot(xw,ma.n*xw+ba.n,"r-", label = ("Fit Außen: ("+ str(ma) + ") * x + (" + str(ba) + ")") )
+    plt.plot(xw,mc.n*xw+bc.n,"y-", label = ("Fit Mitte: ("+ str(ma) + ") * x + (" + str(ba) + ")") )
+    plt.plot(xw,mi.n*xw+bi.n,"m-", label = ("Fit Innen: ("+ str(mi) + ") * x + (" + str(bi) + ")") )
 
     plt.xlabel("Ordnung n")
     plt.ylabel("Durchmesser D² in mm²")
     plt.legend()
     plt.grid(True)
-    #plt.show()
+    plt.show()
     plt.clf()
     return;
 
 
 def main():
     d = laser()
-    green(d)
-    #uv(d)
+    #green(d)
+    uv(d)
     return;
 
 main()
