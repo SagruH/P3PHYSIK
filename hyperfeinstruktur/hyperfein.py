@@ -110,11 +110,18 @@ def green(d):
     lama = (1e-6*ma*d)/(4*f**2)
     lami = (1e-6*mi*d)/(4*f**2)
 
+    lamq = (lama + lami)/2
+
+    Dlam = np.mean(lamq/(8*f**2) * ((dma-dmi)*1e-6))
+    Dk = Dlam/lamq
+
+
     #Data Print ---------------------------
     print("Außen in mm²: m = ", ma , "b = ", ba)
     print("Innen in mm²: m = ", mi , "b = ", bi)
     print("lambda innen = ", lama*1e9, "nm")
     print("lambda außen = ", lami*1e9, "nm")
+    print(Dlam,Dk*lamq**2)
 
     #plt.plot(data1[0], data1[1], "b.-",label="Data1")
     #plt.plot(data2[0], data2[1], "r.-",label="Data2")
@@ -174,6 +181,13 @@ def uv(d):
     lamc = (1e-6*mc*d)/(4*f**2)
     lami = (1e-6*mi*d)/(4*f**2)
 
+    lamq = (lama+ lamc+ lami)/3
+
+    Dlamac = np.mean(lamq/(8*f**2) * ((dma-dmc)*1e-6))
+    Dlamai = np.mean(lamq/(8*f**2) * ((dma-dmi)*1e-6))
+    Dlamci = np.mean(lamq/(8*f**2) * ((dmc-dmi)*1e-6))
+
+
     #Data Print ---------------------------
     print("Außen in mm²: m = ", ma , "b = ", ba)
     print("mitte in mm²: m = ", mc , "b = ", bc)
@@ -181,6 +195,7 @@ def uv(d):
     print("lambda außen = ", lama*1e9, "nm")
     print("lambda mitte = ", lamc*1e9, "nm")
     print("lambda innen = ", lami*1e9, "nm")
+    print(Dlamac/lamq, Dlamai/lamq, Dlamci/lamq)
 
     #plt.plot(data0[0], data0[1], "m.-",label="Data0")   #nope
     #plt.plot(data1[0], data1[1], "b.-",label="Data1")   #good
