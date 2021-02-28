@@ -196,7 +196,7 @@ def uv_old(d):
     print("lambda außen = ", lama*1e9, "nm")
     print("lambda mitte = ", lamc*1e9, "nm")
     print("lambda innen = ", lami*1e9, "nm")
-    print(Dlamac/lamq, Dlamai/lamq, Dlamci/lamq)
+    print(Dlamac, Dlamai, Dlamci)
 
     #plt.plot(data0[0], data0[1], "m.-",label="Data0")   #nope
     #plt.plot(data1[0], data1[1], "b.-",label="Data1")   #good
@@ -231,13 +231,13 @@ def uv(d):
 
     f   = uc.ufloat(150,1)*1e-3
 
-    d1a = 2*( np.array([93,161,244,342,1048,1110])-695    ) /155
-    d1c = 2*( np.array([120,196,281,400,1000,1091])-695    ) /155
-    d1i = 2*( np.array([139,214,308,432,967,1087] )-695    ) /155
+    d1a = 2*( np.array([161,244,342,1048,1110])-695    ) /155
+    d1c = 2*( np.array([196,281,400,1000,1091])-695    ) /155
+    d1i = 2*( np.array([214,308,432,967,1087] )-695    ) /155
 
-    d5a = 2*(np.array([95,178,251,349,1095,1222])-722) /155
-    d5c = 2*(np.array([117,207,289,394,1044,1177])-722) /155
-    d5i = 2*(np.array([154,225,314,426,995,1138])-722)  /155
+    d5a = 2*(np.array([178,251,349,1095,1222])-722) /155
+    d5c = 2*(np.array([207,289,394,1044,1177])-722) /155
+    d5i = 2*(np.array([225,314,426,995,1138])-722)  /155
 
     dma = np.mean([d1a,d5a],axis = 0) **2
     dmc = np.mean([d1c,d5c],axis = 0) **2
@@ -246,9 +246,9 @@ def uv(d):
     derrc = np.std([d1c,d5c],axis = 0) **2
     derri = np.std([d1i,d5i],axis = 0) **2
 
-    ma,ba = uc_lin_reg([4,3,2,1,1,2],0,dma,derra)
-    mc,bc = uc_lin_reg([4,3,2,1,1,2],0,dmc,derrc)
-    mi,bi = uc_lin_reg([4,3,2,1,1,2],0,dmi,derri)
+    ma,ba = uc_lin_reg([3,2,1,1,2],0,dma,derra)
+    mc,bc = uc_lin_reg([3,2,1,1,2],0,dmc,derrc)
+    mi,bi = uc_lin_reg([3,2,1,1,2],0,dmi,derri)
 
     lama = (1e-6*ma*d)/(4*f**2)
     lamc = (1e-6*mc*d)/(4*f**2)
@@ -268,7 +268,8 @@ def uv(d):
     print("lambda außen = ", lama*1e9, "nm")
     print("lambda mitte = ", lamc*1e9, "nm")
     print("lambda innen = ", lami*1e9, "nm")
-    print(Dlamac/lamq, Dlamai/lamq, Dlamci/lamq)
+    print(Dlamac, Dlamai, Dlamci)
+
 
     #plt.plot(data0[0], data0[1], "m.-",label="Data0")   #nope
     #plt.plot(data1[0], data1[1], "b.-",label="Data1")   #good
@@ -277,10 +278,10 @@ def uv(d):
     #plt.plot(data4[0], data4[1], "y.-",label="Data4")   #good
     #plt.plot(data5[0], data5[1], "k.-",label="Data5")   #good
 
-    xw = np.linspace(0.5,4.2,1000)
-    plt.plot([4,3,2,1,1,2],dma,"bo", label = "Data Außen")
-    plt.plot([4,3,2,1,1,2],dmi,"co", label = "Data Innen")
-    plt.plot([4,3,2,1,1,2],dmc,"ko", label = "Data Mitte")
+    xw = np.linspace(0.5,3.2,1000)
+    plt.plot([3,2,1,1,2],dma,"bo", label = "Data Außen")
+    plt.plot([3,2,1,1,2],dmi,"co", label = "Data Innen")
+    plt.plot([3,2,1,1,2],dmc,"ko", label = "Data Mitte")
     plt.plot(xw,ma.n*xw+ba.n,"r-", label = ("Fit Außen: ("+ str(ma) + ") * x + (" + str(ba) + ")") )
     plt.plot(xw,mc.n*xw+bc.n,"y-", label = ("Fit Mitte: ("+ str(mc) + ") * x + (" + str(bc) + ")") )
     plt.plot(xw,mi.n*xw+bi.n,"m-", label = ("Fit Innen: ("+ str(mi) + ") * x + (" + str(bi) + ")") )
@@ -297,7 +298,6 @@ def uv(d):
 def main():
     d = laser()
     #green(d)
-    uv_old(d)
     uv(d)
     return;
 
